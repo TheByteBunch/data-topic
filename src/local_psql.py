@@ -11,4 +11,5 @@ cur = conn.cursor()
 def query_sql(query):
     return cur.execute(query)
 
-#records = cur.fetchall()
+query_sql("SELECT * FROM channels")
+records = cur.fetchall()
