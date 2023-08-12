@@ -9,7 +9,6 @@ password = os.getenv("DB_PASSWORD")
 conn = psycopg2.connect("dbname=" + str(database) + " user=" + str(username) + " password=" + str(password))
 cur = conn.cursor()
 def query_sql(query):
-    return cur.execute(query)
-
-query_sql("SELECT * FROM channels")
-records = cur.fetchall()
+    cur.execute(query)
+    conn.commit()
+    return cur.fetchall()

@@ -23,23 +23,35 @@ def view_channels_query():
     print("viewing query")
     query = f"SELECT * FROM channels"
     local_psql.query_sql(query)
-    pass
+
+    for channel in query:
+        print(channel)
 
 def add_channel_query(user_input):
 
     # check if channel already exists
-    check_query = f"SELECT * FROM channels WHERE name = {user_input}"
+    check_query = f"SELECT * FROM channels WHERE name = '{user_input}'"
     result = local_psql.query_sql(check_query)
-    if result.name :
+    print(result)
+    
+    if result:
         print("Channel already exists")
-
     else:
         (channel_name, subscribers, date) = local_youtube_api.create_add_channel_query_params(user_input)
         query = f"INSERT INTO channels (name, subscribers, date) VALUES ('{channel_name}', {subscribers}, {date})"
         result = local_psql.query_sql(query)
-    pass
+
 
 def delete_channel_query(user_input):
+    check_query = f"SELECT * FROM channels WHERE name = '{user_input}'"
+    result = local_psql.query_sql(check_query)
+    if not result :
+        print("Channel does not exist!")
+
+    delete_query = f"DELETE FROM channels WHERE name = '{user_input}'"
+    local_psql.query_sql(delete_query)
+
+def update_channel():
     pass
 
 def start():
@@ -64,24 +76,23 @@ def start():
 
 def view_channels():
     view_channels_query()
-    pass
 
 def add_channel():
-    print('Please enter the channel name')
+    print('Please enter the channel name to add it')
     user_input = str(input())
     add_channel_query(user_input)
-    pass
 
 def delete_channel():
-    pass
+    print('Please enter the channel name to delete it')
+    user_input = str(input())
+    delete_channel_query(user_input)
 
 def exit():
     pass
 
 start()
 # (1) VIEW CHANNELS
-# (2) ADD CHANNEL
-# (3) DELETE CHANNEL
+# (2) ADD CHANNEL FIX THE TIMESTAMP
 # (4) EXIT
 
 
