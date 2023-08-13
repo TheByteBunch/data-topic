@@ -22,29 +22,27 @@ import datetime
 def view_channels_query():
     print("viewing query")
     query = f"SELECT * FROM channels"
-    local_psql.query_sql(query)
-
-    for channel in query:
+    results = local_psql.query_sql_fetchall(query)
+    for channel in results:
         print(channel)
 
 def add_channel_query(user_input):
-
     # check if channel already exists
     check_query = f"SELECT * FROM channels WHERE name = '{user_input}'"
-    result = local_psql.query_sql(check_query)
-    print(result)
+    result = local_psql.query_sql_fetchall(check_query)
     
     if result:
         print("Channel already exists")
     else:
         (channel_name, subscribers, date) = local_youtube_api.create_add_channel_query_params(user_input)
-        query = f"INSERT INTO channels (name, subscribers, date) VALUES ('{channel_name}', {subscribers}, {date})"
+        converted_date = date.date()
+        query = f"INSERT INTO channels (name, subscribers, date) VALUES ('{channel_name}', {subscribers}, '{converted_date}')"
         result = local_psql.query_sql(query)
-
+################## ADD a call to the DB to check it was added succesfully
 
 def delete_channel_query(user_input):
     check_query = f"SELECT * FROM channels WHERE name = '{user_input}'"
-    result = local_psql.query_sql(check_query)
+    result = local_psql.query_sql_fetchall(check_query)
     if not result :
         print("Channel does not exist!")
 

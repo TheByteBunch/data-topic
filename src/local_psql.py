@@ -6,10 +6,22 @@ database = os.getenv("DATABASE")
 username = os.getenv("DB_USERNAME")
 password = os.getenv("DB_PASSWORD")
 
+def connection():
+    return psycopg2.connect("dbname=" + str(database) + " user=" + str(username) + " host='localhost'" + " password=" + str(password))
 
-conn = psycopg2.connect("dbname=" + str(database) + " user=" + str(username) + " host='localhost'" + " password=" + str(password))
-cur = conn.cursor()
 def query_sql(query):
+    conn = connection()
+    cur = conn.cursor()
     cur.execute(query)
     conn.commit()
-    return cur.fetchall()
+    cur.close()
+    conn.close()
+
+def query_sql_fetchall(query):
+    conn = connection()
+    cur = conn.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    cur.close()
+    conn.close()
+    return results
