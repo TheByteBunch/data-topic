@@ -4,6 +4,7 @@ import local_youtube_api
 import local_psql
 import datetime
 
+# random change
 # def extract_channel_info(channel_name, channel_data):
 #     subscriber_count = channel_data['items'][0]['statistics']['subscriberCount']
 #     view_count = channel_data['items'][0]['statistics']['viewCount']
