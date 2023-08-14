@@ -37,7 +37,7 @@ def add_channel_query(user_input):
     else:
         (channel_name, subscribers, date) = local_youtube_api.create_add_channel_query_params(user_input)
         converted_date = date.date()
-        query = f"INSERT INTO channels (name, subscribers, date) VALUES ('{channel_name}', {subscribers}, '{converted_date}')"
+        query = f"INSERT INTO channels (name, subscribers, dates) VALUES ('{channel_name}', Array[{subscribers}], Array[Date('{converted_date}')])"
         result = local_psql.query_sql(query)
 ################## ADD a call to the DB to check it was added succesfully
 
