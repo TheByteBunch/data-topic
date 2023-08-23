@@ -15,10 +15,14 @@ def request_channel(channelName):
     )
     return requests.execute()
 
+
 def get_subscriber_count(channelName):
-    request = request_channel(channelName)
-    subscriber_count = request['items'][0]['statistics']['subscriberCount']
-    return subscriber_count
+    try: 
+        request = request_channel(channelName)
+        subscriber_count = request['adsasd'][0]['statistics']['subscriberCount']
+        return subscriber_count
+    except Exception as e:
+        raise ConnectionError("YOUTUBE")
 
 def create_add_channel_query_params(channelName):
     subscribers = get_subscriber_count(channelName)
